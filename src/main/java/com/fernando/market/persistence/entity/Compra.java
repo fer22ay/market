@@ -1,0 +1,106 @@
+/**
+ * 
+ */
+package com.fernando.market.persistence.entity;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+/**
+ * Clase que representa la tabla compras de la base de datos.
+ * 
+ * @author : Fernando Ambrosio
+ * @since : 30/09/2020
+ *
+ */
+@Entity
+@Table(name = "compras", schema = "market")
+public class Compra implements Serializable {
+
+	private static final long serialVersionUID = 2670484354307311386L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_compra")
+	private Long idCompra;
+
+	@Column(name = "id_cliente")
+	private String idCliente;
+
+	private LocalDateTime fecha;
+
+	@Column(name = "medio_pago")
+	private String medioPago;
+
+	private String comentario;
+
+	private String estado;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_cliente", insertable = false, updatable = false)
+	private Cliente cliente;
+	
+	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+	private List<ComprasProducto> compras;
+
+	public Long getIdCompra() {
+		return idCompra;
+	}
+
+	public void setIdCompra(Long idCompra) {
+		this.idCompra = idCompra;
+	}
+
+	public String getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(String idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	public LocalDateTime getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(LocalDateTime fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getMedioPago() {
+		return medioPago;
+	}
+
+	public void setMedioPago(String medioPago) {
+		this.medioPago = medioPago;
+	}
+
+	public String getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+}
