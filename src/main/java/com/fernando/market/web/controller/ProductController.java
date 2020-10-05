@@ -7,6 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +19,7 @@ import com.fernando.market.domain.Product;
 import com.fernando.market.domain.service.ProductService;
 
 /**
- * Controlador de una api rest de la tabla productos.
+ * Controlador de la api rest de la tabla productos.
  * 
  * @author Fernando Ambrosio
  * @since : 04/10/2020
@@ -24,26 +29,34 @@ import com.fernando.market.domain.service.ProductService;
 @RequestMapping("/products")
 public class ProductController {
 
-	@Autowired
 	private ProductService productService;
+	
+	public ProductController(ProductService productService) {
+		this.productService = productService;
+	}
 
+	@GetMapping(value = "/all")
 	public List<Product> getAll() {
 		return productService.getAll();
 	}
 
-	public Optional<Product> getProduct(long productId) {
+	@GetMapping(value = "/{productId}")
+	public Optional<Product> getProduct(@PathVariable("productId") long productId) {
 		return productService.getProduct(productId);
 	}
 	
-	public Optional<List<Product>> getByCategory(long categoryId) {
+	@GetMapping(value = "/category/{categoryId}")
+	public Optional<List<Product>> getByCategory(@PathVariable("categoryId") long categoryId) {
 		return productService.getByCategory(categoryId);
 	}
 
-	public Product save(Product product) {
+	@PostMapping(value = "/save")
+	public Product save(@RequestBody Product product) {
 		return productService.save(product);
 	}
 	
-	public boolean delete(long productId) {
+	@DeleteMapping(value = "/delete/{productId}")
+	public boolean delete(@PathVariable("productId") long productId) {
 		return productService.delete(productId);
 	}
 	

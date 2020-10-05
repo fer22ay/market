@@ -26,8 +26,12 @@ public class ProductoRepository implements ProductRepository {
 	@Autowired
 	private ProductoCrudRepository productoCrudRepository;
 
-	@Autowired
+	//@Autowired(required = true)
 	private ProductMapper mapper;
+	
+	public ProductoRepository(ProductMapper mapper) {
+		this.mapper = mapper;
+	}
 
 	/**
 	 * Metodo para consultar los datos de la tabla producto.

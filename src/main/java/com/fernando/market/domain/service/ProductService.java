@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fernando.market.domain.Product;
 import com.fernando.market.domain.repository.ProductRepository;
@@ -22,11 +21,13 @@ import com.fernando.market.domain.repository.ProductRepository;
  *
  */
 @Service
-@Transactional(readOnly = true)
 public class ProductService {
 
-	@Autowired
 	private ProductRepository productRepository;
+	
+	public ProductService(ProductRepository productRepository) {
+		this.productRepository = productRepository;
+	}
 
 	/**
 	 * Metodo que obtiene o lista los productos de la tabla productos de la base de
@@ -65,7 +66,6 @@ public class ProductService {
 	 * @param product de tipo Product
 	 * @return
 	 */
-	@Transactional
 	public Product save(Product product) {
 		return productRepository.save(product);
 	}
@@ -77,7 +77,6 @@ public class ProductService {
 	 * @param productId de tipo Long
 	 * @return
 	 */
-	@Transactional
 	public boolean delete(long productId) {
 		return getProduct(productId).map(product -> {
 			productRepository.delete(productId);
